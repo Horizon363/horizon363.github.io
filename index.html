@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Feliz 3er Aniversario, Mi mujer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at top, #ffdde1, #ee9ca7, #7f7fd5);
+            --card-bg: rgba(255, 255, 255, 0.12);
+            --card-border: rgba(255, 255, 255, 0.4);
+            --accent: #ff4b8b;
+            --accent-soft: #ffc1d9;
+            --text-main: #ffffff;
+            --text-soft: #ffe4f0;
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.25);
+            --transition-fast: 0.25s ease;
+            --transition-slow: 0.6s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con brillos */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.25) 0, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0, transparent 45%);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .hearts {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            animation: floatUp 12s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.8);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) translateX(-20px) scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, #140019, #2b002f, #000000);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            z-index: 20;
+            transition: opacity var(--transition-slow), visibility var(--transition-slow);
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .overlay h1 {
+            font-size: clamp(2.4rem, 5vw, 3.4rem);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .overlay h2 {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 400;
+            color: #ffd3f2;
+            margin-bottom: 30px;
+        }
+
+        .overlay p {
+            max-width: 520px;
+            margin: 0 auto 30px auto;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: #f7e9ff;
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, #ff4b8b, #ff7eb3);
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 999px;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: var(--shadow-soft);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+        }
+
+        .btn-main span.heart-icon {
+            font-size: 1.2rem;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: brightness(1.08);
+            box-shadow: 0 26px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-main:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(16, 1, 31, 0.85), rgba(60, 7, 61, 0.9));
+            border-radius: 26px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity var(--transition-slow), transform var(--transition-slow);
+        }
+
+        .container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 18px;
+            right: -40px;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #5a2600;
+            padding: 6px 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            transform: rotate(33deg);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .title-block {
+            flex: 2;
+            min-width: 230px;
+        }
+
+        .title-block h1 {
+            font-size: clamp(2rem, 3vw, 2.4rem);
+            margin-bottom: 8px;
+        }
+
+        .title-block h1 span {
+            color: var(--accent-soft);
+        }
+
+        .title-block p {
+            font-size: 0.98rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+        }
+
+        .date-pill {
+            flex: 1;
+            min-width: 200px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-soft);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), transparent);
+            margin-bottom: 8px;
+        }
+
+        .pill .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff7eb3;
+            box-shadow: 0 0 14px rgba(255, 126, 179, 0.9);
+        }
+
+        /* Portada opcional (music.jpg) */
+        .cover-image {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .cover-image img {
+            width: 140px;
+            height: 140px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 880px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .date-pill {
+                text-align: left;
+            }
+
+            .cover-image {
+                text-align: left;
+            }
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            padding: 18px 18px 20px 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        section+section {
+            margin-top: 12px;
+        }
+
+        section h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            margin-bottom: 10px;
+            color: var(--accent-soft);
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .typewriter {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: var(--text-soft);
+            white-space: pre-line;
+            min-height: 160px;
+            border-left: 2px solid rgba(255, 255, 255, 0.5);
+            padding-left: 14px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            background: var(--accent-soft);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            49% {
+                opacity: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .poem {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-soft);
+            white-space: pre-line;
+        }
+
+        .poem-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #ffe9ff;
+        }
+
+        .poem-footer {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        /* Juego de memorama */
+        .memory-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .memory-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .memory-header p {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-1px);
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 640px) {
+            .memory-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            perspective: 1000px;
+            cursor: pointer;
+            transform: translateZ(0);
+            /* FIX GPU */
+        }
+
+        .card-inner {
+            position: absolute;
+            inset: 0;
+            border-radius: 14px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            /* FIX */
+            transition: transform 0.4s;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+            will-change: transform;
+            /* FIX */
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            /* FIX CLAVE */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ff4b8b, #7f7fd5);
+            font-size: 1.4rem;
+        }
+
+        .card-front span {
+            opacity: 0.9;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.15);
+            /* fallback */
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            cursor: default;
+            filter: grayscale(0.1) brightness(1.1);
+            box-shadow: 0 0 0 transparent;
+            animation: pulse 0.5s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .memory-stats {
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .memory-complete {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #ffe9ff;
+            display: none;
+        }
+
+        .memory-complete.visible {
+            display: block;
+        }
+
+        /* API mensaje aleatorio */
+        .api-message {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--text-soft);
+            min-height: 40px;
+        }
+
+        .api-message span.label {
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .api-message p {
+            font-style: italic;
+        }
+
+        #bg-music {
+            display: none;
+        }
+
+        .card-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+
+            position: absolute;
+            inset: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Música: pon aquí tu archivo music.mp3 -->
+    <audio id="bg-music" src="music.mp3" loop></audio>
+
+    <!-- Corazones flotando -->
+    <div class="hearts" id="hearts-container"></div>
+
+    <!-- Pantalla de inicio -->
+    <div class="overlay" id="overlay">
+        <h1>Feliz 3er Aniversario</h1>
+        <h2>Iván &amp; Paola Ceballos Rivera</h2>
+        <p>
+            Hace meses años te miré diferente y nunca volvió a ser “solo otra historia”.
+            Hoy todo esto es para ti, Paola, porque tú eres mi mejor decisión.
+        </p>
+        <button class="btn-main" id="start-btn">
+            <span class="heart-icon">❤</span>
+            Entrar a nuestra historia
+        </button>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container" id="main-container">
+        <div class="ribbon">3er aniversario</div>
+
+        <header>
+            <div class="title-block">
+                <div class="section-label">Para la niña de mis ojos cafés</div>
+                <h1>Paola <span>Ceballos Rivera</span></h1>
+                <p>
+                    No eres un capítulo más: eres el libro entero que nunca supe que estaba buscando.
+                    Gracias por estos tres meses de historias raras, risas, videollamadas y magia.
+                </p>
+            </div>
+            <div class="date-pill">
+                <div class="pill">
+                    <div class="dot"></div>
+                    <span>22 · 02 · 2026</span>
+                </div>
+                <div>3 meses mirando al futuro, pero siempre de tu mano.</div>
+                <div class="cover-image">
+                    <!-- Opcional: portada de la canción -->
+                    <img src="music.jpg" alt="Nuestra canción" />
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Mensaje tipo máquina de escribir -->
+            <section>
+                <h2>Nuestra historia en palabras</h2>
+                <div class="typewriter">
+                    <span id="typewriter-text"></span><span class="cursor"></span>
+                </div>
+            </section>
+
+            <!-- Poema -->
+            <section>
+                <h2>Poema para ti</h2>
+                <div class="poem">
+                    <div class="poem-title">“Tres meses de milagro contigo”</div>
+                    Desde aquella historia que empezó en una pantalla
+                    hasta las veces que tu risa llenó mi casa,
+                    todo en ti se siente como llegar por fin a casa.
+
+                    Eres la calma después del caos,
+                    el abrazo que hace que el mundo deje de pesar,
+                    la canción que no sabía que necesitaba.
+
+                    Si el tiempo es un mapa,
+                    yo solo quiero perderme siempre
+                    en los caminos que terminen en tu nombre.
+
+                    <div class="poem-footer">
+                        Con todo el amor del ingeniero más enamorado,
+                        que sigue sorprendido de que el universo te pusiera justo frente a él.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Juego de memorama -->
+            <section>
+                <h2>Rompecabezas de recuerdos</h2>
+                <div class="memory-wrapper">
+                    <div class="memory-header">
+                        <p>
+                            Da clic en las tarjetas para descubrir nuestras fotos.
+                            Encuentra las parejas para completar el juego.
+                        </p>
+                        <button class="btn-ghost" id="reset-memory">
+                            🔄 Reiniciar juego
+                        </button>
+                    </div>
+
+                    <div class="memory-grid" id="memory-grid">
+                        <!-- Tarjetas generadas por JS -->
+                    </div>
+
+                    <div class="memory-stats">
+                        <span>Intentos: <strong id="tries-count">0</strong></span>
+                        <span>Parejas encontradas: <strong id="matches-count">0</strong>/6</span>
+                    </div>
+
+                    <div class="memory-complete" id="memory-complete">
+                        ¡Lo lograste!
+                        Así como en el juego, en la vida siempre encontramos la forma de coincidir tú y yo.
+                    </div>
+                </div>
+            </section>
+
+            <!-- API: mensaje romántico aleatorio -->
+            <section>
+                <h2>Mensaje aleatorio desde el servidor</h2>
+                <p class="section-label">
+                    Pela mi amol no me conecta el selvel.
+                </p>
+                <button class="btn-ghost" id="api-btn">
+                    💌 Traer mensaje sorpresa
+                </button>
+                <div class="api-message" id="api-message">
+                    <span class="label">Mensaje:</span>
+                    <p>Aquí aparecerán las palabras que mi servidor guarda solo para ti.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        /* =========================
+           Corazones flotando
+        ========================= */
+        const heartsContainer = document.getElementById('hearts-container');
+
+        const createHeart = () => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤';
+
+            const size = Math.random() * 16 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 8 + 10;
+
+            heart.style.left = left + 'vw';
+            heart.style.fontSize = size + 'px';
+            heart.style.animationDuration = duration + 's';
+
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        };
+
+        setInterval(createHeart, 800);
+
+        /* =========================
+           Pantalla de inicio + música
+        ========================= */
+        const overlay = document.getElementById('overlay');
+        const startBtn = document.getElementById('start-btn');
+        const mainContainer = document.getElementById('main-container');
+        const bgMusic = document.getElementById('bg-music');
+
+        startBtn.addEventListener('click', () => {
+            overlay.classList.add('hidden');
+            mainContainer.classList.add('visible');
+
+            if (bgMusic) {
+                bgMusic.volume = 0.5;
+                bgMusic.play().catch(() => { });
+            }
+        });
+
+        /* =========================
+           Máquina de escribir
+        ========================= */
+        const typewriterText = document.getElementById('typewriter-text');
+
+        const message = `
+Paola, desde aquel “no sabía que existías, pero qué bueno que te encontré”
+hasta este 22 de febrero de 2026,
+has sido mi coincidencia favorita.
+
+Hemos pasado por distancia, por días pesados,
+por risas que se alargan en videollamadas
+y por momentos tan nuestros que nadie más entendería.
+
+Hoy solo quiero que sepas esto:
+si tuviera que volver a empezar desde cero,
+en cada universo posible volvería a elegirte a ti.
+`.trim();
+
+        let index = 0;
+        const speed = 22;
+
+        function typeWriter() {
+            if (index < message.length) {
+                typewriterText.textContent += message.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && index === 0) {
+                typeWriter();
+            }
+        }, { threshold: 0.3 });
+
+        observer.observe(typewriterText);
+
+        /* =========================
+           Juego de memorama (FIX DEFINITIVO)
+        ========================= */
+        const memoryGrid = document.getElementById('memory-grid');
+        const triesCountEl = document.getElementById('tries-count');
+        const matchesCountEl = document.getElementById('matches-count');
+        const memoryCompleteEl = document.getElementById('memory-complete');
+        const resetMemoryBtn = document.getElementById('reset-memory');
+
+        const images = [
+            'img1.jpg',
+            'img2.jpg',
+            'img3.jpg',
+            'img4.jpg',
+            'img5.jpg',
+            'img6.jpg'
+        ];
+
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+        let tries = 0;
+        let matches = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initMemoryGame() {
+            memoryGrid.innerHTML = '';
+            firstCard = null;
+            secondCard = null;
+            lockBoard = false;
+            tries = 0;
+            matches = 0;
+
+            triesCountEl.textContent = tries;
+            matchesCountEl.textContent = matches;
+            memoryCompleteEl.classList.remove('visible');
+
+            const cardsData = shuffle([...images, ...images]);
+
+            cardsData.forEach(imgSrc => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.image = imgSrc;
+
+                const inner = document.createElement('div');
+                inner.className = 'card-inner';
+
+                const front = document.createElement('div');
+                front.className = 'card-front';
+                front.innerHTML = '<span>❤</span>';
+
+                const back = document.createElement('div');
+                back.className = 'card-back';
+
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = 'recuerdo';
+                img.draggable = false;
+
+                back.appendChild(img);
+                inner.appendChild(front);
+                inner.appendChild(back);
+                card.appendChild(inner);
+
+                card.addEventListener('click', onCardClick);
+                memoryGrid.appendChild(card);
+            });
+        }
+
+        function onCardClick() {
+            if (lockBoard) return;
+            if (this.classList.contains('flipped')) return;
+            if (this.classList.contains('matched')) return;
+
+            this.classList.add('flipped');
+
+            if (!firstCard) {
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            lockBoard = true;
+            tries++;
+
+            triesCountEl.textContent = tries;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch =
+                firstCard.dataset.image === secondCard.dataset.image;
+
+            if (isMatch) {
+                disableCards();
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            firstCard.classList.add('matched');
+            secondCard.classList.add('matched');
+
+            matches++;
+            matchesCountEl.textContent = matches;
+
+            resetTurn();
+
+            if (matches === images.length) {
+                memoryCompleteEl.classList.add('visible');
+            }
+        }
+
+        function unflipCards() {
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                resetTurn();
+            }, 900);
+        }
+
+        function resetTurn() {
+            [firstCard, secondCard] = [null, null];
+            lockBoard = false;
+        }
+
+        resetMemoryBtn.addEventListener('click', initMemoryGame);
+        initMemoryGame();
+
+        /* =========================
+           API opcional
+        ========================= */
+        const apiBtn = document.getElementById('api-btn');
+        const apiMessage = document.getElementById('api-message');
+
+        apiBtn.addEventListener('click', async () => {
+            apiBtn.disabled = true;
+            apiBtn.textContent = 'Cargando mensaje...';
+            apiMessage.querySelector('p').textContent = 'Esperando respuesta del servidor…';
+
+            try {
+                const res = await fetch('/api/random-message');
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                apiMessage.querySelector('p').textContent =
+                    data.message || 'El servidor respondió, pero sin mensaje 😅';
+            } catch {
+                apiMessage.querySelector('p').textContent =
+                    'No pude hablar con el servidor ahora mismo, pero igual quiero que sepas que te amo muchísimo. ❤';
+            } finally {
+                apiBtn.disabled = false;
+                apiBtn.textContent = '💌 Traer mensaje sorpresa';
+            }
+        });
+    </script>
+</body>
+
+</html>

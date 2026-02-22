@@ -428,23 +428,24 @@
             position: absolute;
             inset: 0;
             border-radius: 14px;
-            overflow: hidden;
+            /* overflow: hidden ELIMINADO — rompe preserve-3d en Safari/Chrome */
             transform-style: preserve-3d;
             -webkit-transform-style: preserve-3d;
-            /* FIX */
             transition: transform 0.4s;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
             will-change: transform;
-            /* FIX */
         }
 
         .card-front,
         .card-back {
             position: absolute;
             inset: 0;
+            border-radius: 14px;
+            /* border-radius ahora en las caras */
+            overflow: hidden;
+            /* overflow aquí no afecta el 3D */
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            /* FIX CLAVE */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -461,10 +462,18 @@
 
         .card-back {
             transform: rotateY(180deg);
-            background-size: cover;
-            background-position: center;
             background-color: rgba(0, 0, 0, 0.15);
-            /* fallback */
+        }
+
+        /* CORRECCIÓN CLAVE: la imagen llena toda la cara trasera */
+        .card-back img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 14px;
         }
 
         .card.flipped .card-inner {
